@@ -1,0 +1,132 @@
+﻿Initialized native services in: D:\gradle_home\native
+Initialized jansi services in: D:\gradle_home\native
+Found daemon DaemonInfo{pid=22428, address=[9cc5f669-a968-40ee-9197-c61130e0fccf port:58450, addresses:[/127.0.0.1]], state=Idle, lastBusy=1775951272564, context=DefaultDaemonContext[uid=3c8f43a6-44b6-47ee-abb5-789b88a03fe3,javaHome=D:\Android\jbr,javaVersion=21,javaVendor=JetBrains s.r.o.,daemonRegistryDir=D:\gradle_home\daemon,pid=22428,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=CO,-Duser.language=es,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=D:\Java\jdk-17.0.18.8-hotspot (no JDK specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=4G, -XX:ReservedCodeCacheSize=512m, -XX:+HeapDumpOnOutOfMemoryError, -Xmx8G, -Dfile.encoding=windows-1252, -Duser.country=CO, -Duser.language=es, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=3c8f43a6-44b6-47ee-abb5-789b88a03fe3,javaHome=D:\Android\jbr,javaVersion=21,javaVendor=JetBrains s.r.o.,daemonRegistryDir=D:\gradle_home\daemon,pid=22428,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=4G,-XX:ReservedCodeCacheSize=512m,-XX:+HeapDumpOnOutOfMemoryError,-Xmx8G,-Dfile.encoding=UTF-8,-Duser.country=CO,-Duser.language=es,-Duser.variant]
+
+  Looking for a different daemon...
+Removing 0 daemon stop events from registry
+Previous Daemon (21536) stopped at Sat Apr 11 18:20:45 COT 2026 after being idle for 167 minutes and not recently used and to reclaim system physical memory
+Starting a Gradle Daemon, 6 busy and 1 incompatible and 1 stopped Daemons could not be reused, use --status for details
+Starting process 'Gradle build daemon'. Working directory: D:\gradle_home\daemon\8.12 Command: D:\Java\jdk-17.0.18.8-hotspot\bin\java.exe --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED -XX:MaxMetaspaceSize=4G -XX:ReservedCodeCacheSize=512m -XX:+HeapDumpOnOutOfMemoryError -Xmx8G -Dfile.encoding=windows-1252 -Duser.country=CO -Duser.language=es -Duser.variant -cp D:\gradle_home\wrapper\dists\gradle-8.12-all\ejduaidbjup3bmmkhw3rie4zb\gradle-8.12\lib\gradle-daemon-main-8.12.jar -javaagent:D:\gradle_home\wrapper\dists\gradle-8.12-all\ejduaidbjup3bmmkhw3rie4zb\gradle-8.12\lib\agents\gradle-instrumentation-agent-8.12.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 8.12
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 5.105 secs.
+The client will now receive all logging from the daemon (pid: 21744). The daemon log file: D:\gradle_home\daemon\8.12\daemon-21744.out.log
+Starting build in new daemon [memory: 8 GiB]
+Using 8 worker leases.
+Received JVM installation metadata from 'D:\Java\jdk-17.0.18.8-hotspot': {JAVA_HOME=D:\Java\jdk-17.0.18.8-hotspot, JAVA_VERSION=17.0.18, JAVA_VENDOR=Eclipse Adoptium, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=17.0.18+8, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=17.0.18+8, VM_VENDOR=Eclipse Adoptium, OS_ARCH=amd64}
+Watching the file system is configured to be enabled if available
+Now considering [D:\vivoweb_migration\vivoweb_flutter\android] as hierarchies to watch
+File system watching is active
+Starting Build
+Caching disabled for Kotlin DSL script compilation (Settings/TopLevel/stage1) because:
+  Build cache is disabled
+Now considering [D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle, D:\vivoweb_migration\vivoweb_flutter\android] as hierarchies to watch
+
+> Configure project :gradle
+Evaluating project ':gradle' using build file 'D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\build.gradle.kts'.
+Resolved plugin [id: 'org.gradle.java-gradle-plugin']
+Resolved plugin [id: 'org.gradle.groovy']
+Resolved plugin [id: 'org.gradle.kotlin.kotlin-dsl', version: '5.1.2']
+Resolved plugin [id: 'org.jetbrains.kotlin.jvm', version: '1.9.20']
+Using Kotlin Gradle Plugin gradle85 variant
+kotlin scripting plugin: created the scripting discovery configuration: kotlinScriptDef
+kotlin scripting plugin: created the scripting discovery configuration: testKotlinScriptDef
+file or directory 'D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\java', not found
+Resolved plugin [id: 'dev.flutter.flutter-plugin-loader', version: '1.0.0']
+Resolved plugin [id: 'com.android.application', version: '8.3.1', apply: false]
+Resolved plugin [id: 'org.jetbrains.kotlin.android', version: '1.9.24', apply: false]
+Resolve mutations for :gradle:checkKotlinGradlePluginConfigurationErrors (Thread[Execution worker Thread 2,5,main]) started.
+:gradle:checkKotlinGradlePluginConfigurationErrors (Thread[included builds,5,main]) started.
+
+> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
+Skipping task ':gradle:checkKotlinGradlePluginConfigurationErrors' as task onlyIf 'errorDiagnostics are present' is false.
+Resolve mutations for :gradle:compileKotlin (Thread[included builds,5,main]) started.
+:gradle:compileKotlin (Thread[included builds,5,main]) started.
+
+> Task :gradle:compileKotlin
+Caching disabled for task ':gradle:compileKotlin' because:
+  Build cache is disabled
+Task ':gradle:compileKotlin' is not up-to-date because:
+  Value of input property 'kotlinJavaToolchainProvider.javaVersion' has changed for task ':gradle:compileKotlin'
+The input changes require a full rebuild for incremental task ':gradle:compileKotlin'.
+file or directory 'D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\java', not found
+file or directory 'D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\java', not found
+file or directory 'D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\java', not found
+file or directory 'D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\java', not found
+Kotlin source files: D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\AppLinkSettings.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\BaseApplicationNameHandler.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\Deeplink.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\DependencyVersionChecker.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\FlutterAppPluginLoaderPlugin.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\FlutterExtension.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\FlutterPlugin.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\FlutterPluginConstants.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\FlutterPluginUtils.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\IntentFilterCheck.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\NativePluginLoaderReflectionBridge.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\plugins\PluginHandler.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\tasks\BaseFlutterTask.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\tasks\BaseFlutterTaskHelper.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\tasks\FlutterTask.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\tasks\FlutterTaskHelper.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\VersionFetcher.kt, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\kotlin\VersionUtils.kt
+Java source files: 
+Script source files: 
+Script file extensions: 
+Using Kotlin/JVM incremental compilation
+[KOTLIN] Kotlin compilation 'jdkHome' argument: D:\Java\jdk-17.0.18.8-hotspot
+
+Resolve mutations for :gradle:pluginDescriptors (Thread[Execution worker Thread 2,5,main]) started.
+:gradle:pluginDescriptors (Thread[Execution worker,5,main]) started.
+
+> Task :gradle:pluginDescriptors UP-TO-DATE
+Caching disabled for task ':gradle:pluginDescriptors' because:
+  Build cache is disabled
+  Not worth caching
+Skipping task ':gradle:pluginDescriptors' as it is up-to-date.
+Resolve mutations for :gradle:processResources (Thread[Execution worker,5,main]) started.
+:gradle:processResources (Thread[Execution worker,5,main]) started.
+
+> Task :gradle:processResources
+Caching disabled for task ':gradle:processResources' because:
+  Build cache is disabled
+  Not worth caching
+Task ':gradle:processResources' is not up-to-date because:
+  Value of input property 'rootSpec$1.filteringCharset' has changed for task ':gradle:processResources'
+  Value of input property 'rootSpec$2.filteringCharset' has changed for task ':gradle:processResources'
+file or directory 'D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\src\main\resources', not found
+
+> Task :gradle:compileKotlin
+i: starting the daemon as: D:\Java\jdk-17.0.18.8-hotspot\bin\java -cp D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-compiler-embeddable\2.0.21\79346ed53db48b18312a472602eb5c057070c54d\kotlin-compiler-embeddable-2.0.21.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-stdlib\2.0.21\618b539767b4899b4660a83006e052b63f1db551\kotlin-stdlib-2.0.21.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-script-runtime\2.0.21\c9b044380ad41f89aa89aa896c2d32a8c0b2129d\kotlin-script-runtime-2.0.21.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-reflect\1.6.10\1cbe9c92c12a94eea200d23c2bbaedaf3daf5132\kotlin-reflect-1.6.10.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-daemon-embeddable\2.0.21\c9e933b23287de9b5a17e2116b4657bb91aea72c\kotlin-daemon-embeddable-2.0.21.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.intellij.deps\trove4j\1.0.20200330\3afb14d5f9ceb459d724e907a21145e8ff394f02\trove4j-1.0.20200330.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlinx\kotlinx-coroutines-core-jvm\1.6.4\2c997cd1c0ef33f3e751d3831929aeff1390cb30\kotlinx-coroutines-core-jvm-1.6.4.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains\annotations\13.0\919f0dfe192fb4e063e7dacadee7f8bb9a2672a9\annotations-13.0.jar -Djava.awt.headless=true -Djava.rmi.server.hostname=127.0.0.1 -Xmx8G -XX:MaxMetaspaceSize=4G -XX:ReservedCodeCacheSize=512m -Dkotlin.environment.keepalive -ea -XX:+UseCodeCacheFlushing -XX:+UseParallelGC --add-exports java.base/sun.nio.ch=ALL-UNNAMED org.jetbrains.kotlin.daemon.KotlinCompileDaemon --daemon-runFilesPath C:\Users\juand\AppData\Local\kotlin\daemon --daemon-autoshutdownIdleSeconds=7200 --daemon-compilerClasspath D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-compiler-embeddable\2.0.21\79346ed53db48b18312a472602eb5c057070c54d\kotlin-compiler-embeddable-2.0.21.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-stdlib\2.0.21\618b539767b4899b4660a83006e052b63f1db551\kotlin-stdlib-2.0.21.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-script-runtime\2.0.21\c9b044380ad41f89aa89aa896c2d32a8c0b2129d\kotlin-script-runtime-2.0.21.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-reflect\1.6.10\1cbe9c92c12a94eea200d23c2bbaedaf3daf5132\kotlin-reflect-1.6.10.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-daemon-embeddable\2.0.21\c9e933b23287de9b5a17e2116b4657bb91aea72c\kotlin-daemon-embeddable-2.0.21.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.intellij.deps\trove4j\1.0.20200330\3afb14d5f9ceb459d724e907a21145e8ff394f02\trove4j-1.0.20200330.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains.kotlinx\kotlinx-coroutines-core-jvm\1.6.4\2c997cd1c0ef33f3e751d3831929aeff1390cb30\kotlinx-coroutines-core-jvm-1.6.4.jar;D:\gradle_home\caches\modules-2\files-2.1\org.jetbrains\annotations\13.0\919f0dfe192fb4e063e7dacadee7f8bb9a2672a9\annotations-13.0.jar
+i: #1 retrying connecting to the daemon 
+Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0, 3], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[]), areFileChangesKnown=false, modifiedFiles=null, deletedFiles=null, classpathChanges=NotAvailableForNonIncrementalRun, workingDir=D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\build\kotlin\compileKotlin\cacheable, multiModuleICSettings=MultiModuleICSettings(buildHistoryFile=D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\build\kotlin\compileKotlin\local-state\build-history.bin, useModuleDetection=false), usePreciseJavaTracking=true, icFeatures=IncrementalCompilationFeatures(withAbiSnapshot=false, preciseCompilationResultsBackup=true, keepIncrementalCompilationCachesInMemory=true, enableUnsafeIncrementalCompilationForMultiplatform=false), outputFiles=[D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\build\classes\kotlin\main, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\build\kotlin\compileKotlin\cacheable, D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\build\kotlin\compileKotlin\local-state])
+w: file:///D:/flutter_windows_3.35.7-stable/flutter/packages/flutter_tools/gradle/src/main/kotlin/DependencyVersionChecker.kt:194:39 'getter for minSdkVersion: AndroidVersion' is deprecated. Will be removed in v9.0
+w: file:///D:/flutter_windows_3.35.7-stable/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:11:37 'ApkVariant' is deprecated. Deprecated in Java
+w: file:///D:/flutter_windows_3.35.7-stable/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterPlugin.kt:628:69 'ApkVariant' is deprecated. Deprecated in Java
+Finished executing kotlin compiler using DAEMON strategy
+Resolve mutations for :gradle:compileJava (Thread[Execution worker,5,main]) started.
+:gradle:compileJava (Thread[included builds,5,main]) started.
+
+> Task :gradle:compileJava NO-SOURCE
+Skipping task ':gradle:compileJava' as it has no source files and no previous output files.
+Resolve mutations for :gradle:compileGroovy (Thread[included builds,5,main]) started.
+:gradle:compileGroovy (Thread[included builds,5,main]) started.
+
+> Task :gradle:compileGroovy NO-SOURCE
+Skipping task ':gradle:compileGroovy' as it has no source files and no previous output files.
+Resolve mutations for :gradle:classes (Thread[Execution worker,5,main]) started.
+:gradle:classes (Thread[included builds,5,main]) started.
+
+> Task :gradle:classes
+Skipping task ':gradle:classes' as it has no actions.
+Resolve mutations for :gradle:jar (Thread[included builds,5,main]) started.
+:gradle:jar (Thread[Execution worker,5,main]) started.
+
+> Task :gradle:jar
+Caching disabled for task ':gradle:jar' because:
+  Build cache is disabled
+  Not worth caching
+Task ':gradle:jar' is not up-to-date because:
+  Value of input property 'rootSpec$1.filteringCharset' has changed for task ':gradle:jar'
+  Value of input property 'rootSpec$2$1.filteringCharset' has changed for task ':gradle:jar'
+  Value of input property 'rootSpec$2.filteringCharset' has changed for task ':gradle:jar'
+file or directory 'D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\build\classes\java\main', not found
+file or directory 'D:\flutter_windows_3.35.7-stable\flutter\packages\flutter_tools\gradle\build\classes\groovy\main', not found
+Caching disabled for Kotlin DSL script compilation (Settings/TopLevel/stage2) because:
+  Build cache is disabled
+Settings evaluated using settings file 'D:\vivoweb_migration\vivoweb_flutter\android\settings.gradle.kts'.
+Projects loaded. Root project using build file 'D:\vivoweb_migration\vivoweb_flutter\android\build.gradle.kts'.
+Included projects: [root project 'android', project ':app', project ':jni', project ':jni_flutter', project ':shared_preferences_android', project ':sqflite_android', project ':url_launcher_android', project ':video_player_android']
+
+> Configure project :
+Evaluating root project 'android' using build file 'D:\vivoweb_migration\vivoweb_flutter\android\build.gradle.kts'.
+Caching disabled for Kotlin DSL script compilation (Project/TopLevel/stage1) because:
+  Build cache is disabled
+Caching disabled for Kotlin DSL script compilation (Project/TopLevel/stage2) because:
+  Build cache is disabled

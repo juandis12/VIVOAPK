@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "765783064130",
+    "project_id": "grado-1d73d",
+    "storage_bucket": "grado-1d73d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765783064130:android:54931945a17f643b1cf7db",
+        "android_client_info": {
+          "package_name": "vivoweb.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsMd6bhcUb9nk1nF8ryh5UtlwasFexQJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
