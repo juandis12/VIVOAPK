@@ -122,6 +122,15 @@ jobs:
           restore-keys: |
             pods-${{ runner.os }}-
 
+      - name: Build Flutter iOS (Generates Xcode project)
+        if: steps.detect.outputs.type == 'flutter'
+        run: |
+          if [ "${{ inputs.configuration }}" = "Debug" ]; then
+            flutter build ios --debug --no-codesign
+          else
+            flutter build ios --release --no-codesign
+          fi
+
       - name: Build iOS using build-ios-action
         if: inputs.use_signing
         uses: yukiarrr/ios-build-action@v1.13.0
@@ -133,14 +142,29 @@ jobs:
           p12-base64: ${{ secrets.IOS_CERTIFICATE }}
           p12-password: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
           mobileprovision-base64: ${{ secrets.IOS_PROVISIONING_PROFILE }}
-          code-signing-identity: "Apple Development" # o Apple Distribution dependiendo de tu cert
-          team-id: ${{ secrets.TEAM_ID }} # Agregar secreto TEAM_ID
+          code-signing-identity: "Apple Development"
+          team-id: ${{ secrets.TEAM_ID }}
+
+      - name: Build Unsigned IPA (Fallback)
+        if: ${{ !inputs.use_signing }}
+        run: |
+          APP_PATH=$(find build/ios/iphoneos -name "*.app" -type d | head -1)
+          if [ -z "$APP_PATH" ]; then
+            echo "Error: Could not find .app"
+            exit 1
+          fi
+          echo "Found app at: $APP_PATH"
+          mkdir -p Payload
+          cp -R "$APP_PATH" Payload/
+          zip -rq output.ipa Payload
+          rm -rf Payload
+          echo "Created unsigned IPA: output.ipa"
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
         with:
           name: ipa
-          path: output.ipa # yukiarrr action outputs to output.ipa by default
+          path: output.ipa
           retention-days: 7
           if-no-files-found: error
 
