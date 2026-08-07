@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vivoweb_flutter/core/theme/app_theme.dart';
 import 'package:vivoweb_flutter/services/supabase_service.dart';
 import 'package:vivoweb_flutter/features/auth/presentation/screens/auth_screen.dart';
+import 'package:vivoweb_flutter/features/auth/presentation/screens/register_screen.dart';
 import 'package:vivoweb_flutter/features/profiles/presentation/screens/profile_selection_screen.dart';
 import 'package:vivoweb_flutter/features/catalog/presentation/screens/dashboard_screen.dart';
 import 'package:vivoweb_flutter/services/session_service.dart';
@@ -50,6 +51,10 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/auth',
       builder: (context, state) => const AuthScreen(),
+    ),
+    GoRoute(
+      path: '/register',
+      builder: (context, state) => const RegisterScreen(),
     ),
     GoRoute(
       path: '/profiles',

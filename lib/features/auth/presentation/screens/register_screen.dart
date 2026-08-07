@@ -4,46 +4,74 @@ import 'package:vivoweb_flutter/core/theme/app_theme.dart';
 import 'package:vivoweb_flutter/services/supabase_service.dart';
 import 'package:go_router/go_router.dart';
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  
   bool _isLoading = false;
   bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
   String? _errorMessage;
+  String? _successMessage;
 
   final SupabaseService _supabaseService = SupabaseService();
 
-  Future<void> _handleLogin() async {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+  Future<void> _handleRegister() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       setState(() => _errorMessage = 'Por favor complete todos los campos');
+      return;
+    }
+
+    if (password != confirmPassword) {
+      setState(() => _errorMessage = 'Las contraseñas no coinciden');
+      return;
+    }
+
+    if (password.length < 6) {
+      setState(() => _errorMessage = 'La contraseña debe tener al menos 6 caracteres');
       return;
     }
 
     setState(() {
       _isLoading = true;
       _errorMessage = null;
+      _successMessage = null;
     });
 
     try {
-      await _supabaseService.signIn(
-        _emailController.text.trim(),
-        _passwordController.text.trim(),
-      );
+      await _supabaseService.signUp(email, password);
+      
       if (mounted) {
-        context.go('/profiles');
+        setState(() {
+          _successMessage = '¡Cuenta creada exitosamente! Iniciando sesión...';
+        });
+        
+        // Esperar un momento para que el usuario lea el mensaje
+        await Future.delayed(const Duration(seconds: 2));
+        
+        // Iniciar sesión automáticamente después del registro
+        await _supabaseService.signIn(email, password);
+        if (mounted) {
+          context.go('/profiles');
+        }
       }
     } catch (e) {
-      debugPrint('Auth error: $e');
+      debugPrint('Auth register error: $e');
       String msg = 'Problema de conexión o servidor';
-      if (e.toString().contains('Invalid login credentials')) {
-        msg = 'Credenciales inválidas (correo o contraseña incorrectos)';
+      if (e.toString().contains('already registered') || e.toString().contains('User already registered')) {
+        msg = 'Este correo electrónico ya está registrado';
       } else if (e.toString().contains('socket') || e.toString().contains('Failed host lookup')) {
         msg = 'No hay conexión a internet o el servidor no responde';
       } else {
@@ -65,7 +93,6 @@ class _AuthScreenState extends State<AuthScreen> {
           // Global Background
           Container(decoration: AppTheme.backgroundDecoration),
 
-          
           // Overlay Blur for the whole screen
           BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -120,7 +147,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         const SizedBox(height: 16),
                         const Text(
-                          'Bienvenido de vuelta',
+                          'Crea tu cuenta',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -129,7 +156,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         const SizedBox(height: 8),
                         const Text(
-                          'Inicia sesión para disfrutar de tu contenido premium',
+                          'Únete para disfrutar del mejor entretenimiento',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
@@ -153,11 +180,10 @@ class _AuthScreenState extends State<AuthScreen> {
                         TextField(
                           controller: _passwordController,
                           obscureText: !_isPasswordVisible,
-                          textInputAction: TextInputAction.done,
-                          onSubmitted: (_) => _handleLogin(),
+                          textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             labelText: 'Contraseña',
-                            hintText: '••••••••',
+                            hintText: 'Mínimo 6 caracteres',
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
@@ -167,15 +193,21 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ),
                         ),
-                        
-                        const SizedBox(height: 12),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {}, // TODO: Forgot Password
-                            child: const Text(
-                              '¿Olvidaste tu contraseña?',
-                              style: TextStyle(color: Colors.blue, fontSize: 13),
+                        const SizedBox(height: 20),
+                        TextField(
+                          controller: _confirmPasswordController,
+                          obscureText: !_isConfirmPasswordVisible,
+                          textInputAction: TextInputAction.done,
+                          onSubmitted: (_) => _handleRegister(),
+                          decoration: InputDecoration(
+                            labelText: 'Confirmar Contraseña',
+                            hintText: 'Repite tu contraseña',
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                color: AppTheme.textSecondary,
+                              ),
+                              onPressed: () => setState(() => _isConfirmPasswordVisible = !_isConfirmPasswordVisible),
                             ),
                           ),
                         ),
@@ -185,6 +217,16 @@ class _AuthScreenState extends State<AuthScreen> {
                           Text(
                             _errorMessage!,
                             style: const TextStyle(color: AppTheme.error, fontSize: 13),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                        
+                        if (_successMessage != null) ...[
+                          const SizedBox(height: 16),
+                          Text(
+                            _successMessage!,
+                            style: const TextStyle(color: Colors.greenAccent, fontSize: 13, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
                           ),
                         ],
 
@@ -192,7 +234,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: _isLoading ? null : _handleLogin,
+                            onPressed: _isLoading ? null : _handleRegister,
                             child: _isLoading
                                 ? const SizedBox(
                                     height: 20,
@@ -202,7 +244,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                       color: AppTheme.background,
                                     ),
                                   )
-                                : const Text('Iniciar Sesión'),
+                                : const Text('Registrarme'),
                           ),
                         ),
                         
@@ -212,7 +254,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             Expanded(child: Divider(color: Colors.white24)),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16),
-                              child: Text('o continúa con', style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+                              child: Text('o si ya tienes cuenta', style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
                             ),
                             Expanded(child: Divider(color: Colors.white24)),
                           ],
@@ -223,15 +265,15 @@ class _AuthScreenState extends State<AuthScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              '¿No tienes cuenta? ',
+                              '¿Ya tienes cuenta? ',
                               style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
                             ),
                             GestureDetector(
                               onTap: () {
-                                if (!_isLoading) context.push('/register');
+                                if (!_isLoading) context.pop(); // Volver al login
                               },
                               child: const Text(
-                                'Regístrate gratis',
+                                'Inicia Sesión',
                                 style: TextStyle(
                                   color: AppTheme.accent,
                                   fontWeight: FontWeight.bold,
@@ -248,9 +290,20 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             ),
           ),
+          
+          // Botón flotante para regresar (Back button)
+          Positioned(
+            top: 40,
+            left: 20,
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+              onPressed: () {
+                if (!_isLoading) context.pop();
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 }
-
