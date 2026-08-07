@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -577,10 +578,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   icon: Icons.open_in_browser,
                   onPressed: () async {
                     if (_currentSourceUrl != null) {
-                      await launchUrl(Uri.parse(_currentSourceUrl!), mode: LaunchMode.externalApplication);
+                      await launchUrl(
+                        Uri.parse(_currentSourceUrl!), 
+                        mode: Platform.isIOS ? LaunchMode.inAppBrowserView : LaunchMode.externalApplication,
+                      );
                     }
                   },
-                  label: 'Navegador Externo',
+                  label: Platform.isIOS ? 'Navegador Interno' : 'Navegador Externo',
                 ),
                 const SizedBox(width: 12),
                 _TVPlayerButton(
