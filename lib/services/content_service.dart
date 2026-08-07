@@ -7,6 +7,7 @@ import 'package:vivoweb_flutter/models/content_model.dart';
 import 'package:vivoweb_flutter/models/episode_model.dart';
 import 'package:vivoweb_flutter/services/supabase_service.dart';
 import 'package:vivoweb_flutter/services/tmdb_service.dart';
+import 'package:http/http.dart' as http;
 
 class ContentService {
   static final ContentService _instance = ContentService._internal();
@@ -15,6 +16,9 @@ class ContentService {
 
   final SupabaseService _supabaseService = SupabaseService();
   final TMDBService _tmdbService = TMDBService();
+  
+  static const _vimeusApiKey = 'ak_dhYuCU8aswKclnexhYTtbf3tHqgzQTkF';
+  static const _vimeusViewKey = 'X_FK-_jYlGUUrM9cgLrkDdOJSe7EB-cXlrU7GFdd_Rk';
   
   final Set<String> _availableMovies = {};
   final Set<String> _availableSeries = {};
@@ -683,7 +687,33 @@ class ContentService {
       if (tmdbData == null || tmdbData['episodes'] == null) return [];
       final tmdbEpisodes = (tmdbData['episodes'] as List);
 
-      // 2. Supabase: Streams
+      // 1. Consultar API de Vimeus para esta temporada completa
+      final Map<int, String> vimeusStreams = {};
+      try {
+        final vimeusRes = await http.get(
+          Uri.parse('https://vimeus.com/api/listing/episodes?tmdb_id=$id&season=$seasonNumber'),
+          headers: {'X-API-Key': _vimeusApiKey},
+        ).timeout(const Duration(seconds: 5));
+        
+        if (vimeusRes.statusCode == 200) {
+          final vimeusData = json.decode(vimeusRes.body);
+          if (vimeusData['error'] == false && vimeusData['data'] != null) {
+            final resultList = vimeusData['data']['result'] ?? vimeusData['data']['episodes'];
+            if (resultList != null && resultList is List) {
+              for (var ep in resultList) {
+                final epNum = int.tryParse(ep['episode'].toString());
+                if (epNum != null && ep['embed_url'] != null) {
+                  vimeusStreams[epNum] = ep['embed_url'];
+                }
+              }
+            }
+          }
+        }
+      } catch (e) {
+        debugPrint('[Vimeus] Error obteniendo episodios de la API: $e');
+      }
+
+      // 2. Supabase Fallback (para episodios faltantes en Vimeus)
       final dbResponse = await _supabaseService.client
           .from('series_episodes')
           .select('episode_number, stream_url, stream_url_vidsrc, stream_url_2embed, stream_url_superembed')
@@ -709,12 +739,14 @@ class ContentService {
         final epNum = epData['episode_number'] as int;
         final dbEp = dbMap[epNum];
         final hist = historyMap[epNum];
+        
+        final streamUrl = vimeusStreams[epNum] ?? dbEp?['stream_url'] ?? dbEp?['stream_url_vidsrc'];
 
         return EpisodeModel.fromJson(
           epData,
           id,
           seasonNumber,
-          streamUrl: dbEp?['stream_url'] ?? dbEp?['stream_url_vidsrc'],
+          streamUrl: streamUrl,
           progressSeconds: hist?['progress_seconds'] ?? 0,
           isWatched: hist?['is_watched'] ?? false,
         );
@@ -735,29 +767,43 @@ class ContentService {
     try {
       final id = int.tryParse(tmdbId.toString()) ?? 0;
       if (id == 0) return [];
-
-      final response = await _supabaseService.client
-          .from('video_sources')
-          .select('stream_url, stream_url_vidsrc, stream_url_2embed, stream_url_superembed')
-          .eq('tmdb_id', id)
-          .maybeSingle();
-
-      if (response == null) return [];
-
-      final data = response as Map<String, dynamic>;
+      
       final List<Map<String, dynamic>> sources = [];
 
-      if (data['stream_url'] != null) {
-        sources.add({'name': 'Vimeus (Principal)', 'url': data['stream_url']});
+      // 1. Consultar Vimeus directo usando HTTP HEAD en la URL de embed
+      final vimeusUrl = 'https://vimeus.com/e/movie?tmdb=$id&view_key=$_vimeusViewKey';
+      try {
+        final headRes = await http.head(Uri.parse(vimeusUrl)).timeout(const Duration(seconds: 4));
+        if (headRes.statusCode == 200) {
+          sources.add({'name': 'Vimeus (VIP Principal)', 'url': vimeusUrl});
+        }
+      } catch (e) {
+        debugPrint('[Vimeus] Error verificando película: $e');
       }
-      if (data['stream_url_vidsrc'] != null) {
-        sources.add({'name': 'VIP Mirror 1', 'url': data['stream_url_vidsrc']});
-      }
-      if (data['stream_url_2embed'] != null) {
-        sources.add({'name': 'VIP Mirror 2', 'url': data['stream_url_2embed']});
-      }
-      if (data['stream_url_superembed'] != null) {
-        sources.add({'name': 'Servidor Directo', 'url': data['stream_url_superembed']});
+
+      // 2. Si no está en Vimeus, usar Supabase como fallback
+      if (sources.isEmpty) {
+        final response = await _supabaseService.client
+            .from('video_sources')
+            .select('stream_url, stream_url_vidsrc, stream_url_2embed, stream_url_superembed')
+            .eq('tmdb_id', id)
+            .maybeSingle();
+
+        if (response != null) {
+          final data = response as Map<String, dynamic>;
+          if (data['stream_url'] != null) {
+            sources.add({'name': 'Servidor Alternativo 1', 'url': data['stream_url']});
+          }
+          if (data['stream_url_vidsrc'] != null) {
+            sources.add({'name': 'VIP Mirror 1', 'url': data['stream_url_vidsrc']});
+          }
+          if (data['stream_url_2embed'] != null) {
+            sources.add({'name': 'VIP Mirror 2', 'url': data['stream_url_2embed']});
+          }
+          if (data['stream_url_superembed'] != null) {
+            sources.add({'name': 'Servidor Directo', 'url': data['stream_url_superembed']});
+          }
+        }
       }
 
       return sources.where((s) => (s['url'] as String).trim().isNotEmpty).toList();
