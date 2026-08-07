@@ -106,6 +106,7 @@ class _EmbedPlayerScreenState extends State<EmbedPlayerScreen> {
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams(
         allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
       );
     } else {
       params = const PlatformWebViewControllerCreationParams();
@@ -130,19 +131,8 @@ class _EmbedPlayerScreenState extends State<EmbedPlayerScreen> {
                 const videos = document.querySelectorAll('video');
                 videos.forEach(v => {
                   v.play().catch(e => console.log('Autoplay blocked'));
-                  v.muted = false;
                   v.style.display = 'block';
                   v.style.opacity = '1';
-                });
-                
-                // Intentar detectar y remover el 'poster' o overlays que bloquean la imagen
-                const commonOverlays = [
-                  '.vjs-poster', '.vjs-big-play-button', '.ytp-cued-thumbnail-overlay',
-                  '[class*="poster"]', '[class*="overlay"]', '[class*="play-button"]',
-                  '.jw-preview', '.jw-display-icon-container'
-                ];
-                commonOverlays.forEach(selector => {
-                  document.querySelectorAll(selector).forEach(el => el.style.display = 'none');
                 });
               })();
               """
@@ -426,6 +416,7 @@ class _EmbedPlayerScreenState extends State<EmbedPlayerScreen> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+    _controller.loadRequest(Uri.parse('about:blank'));
     super.dispose();
   }
 

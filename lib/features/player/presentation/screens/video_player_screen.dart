@@ -547,6 +547,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+    _webController.loadRequest(Uri.parse('about:blank'));
     super.dispose();
   }
 
