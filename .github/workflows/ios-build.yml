@@ -124,7 +124,7 @@ jobs:
 
       - name: Build iOS using build-ios-action
         if: inputs.use_signing
-        uses: yukiarrr/ios-build-action@v1.13.1
+        uses: yukiarrr/ios-build-action@v1.13.0
         with:
           project-path: ${{ inputs.ios_path }}/Runner.xcodeproj
           workspace-path: ${{ inputs.ios_path }}/Runner.xcworkspace
